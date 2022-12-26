@@ -1,30 +1,30 @@
-import React, {useState, useEffect} from 'react'
+import React, { useEffect, useState } from 'react';
 
 function App() {
-
-  const [data, setData] = useState([{}])
-
+  const [image, setImage] = useState(null);
+  const [route, setRoute] = useState(window.location.pathname);
+  
   useEffect(() => {
-    fetch("/members").then(
-      res => res.json()
-    ).then(
-      data => {
-        setData(data) 
-      }
-    )
-  }, [])
+    async function fetchImage() {
+      const response = await fetch('http://localhost:3000/plot');
+      const blob = await response.blob();
+      setImage(URL.createObjectURL(blob));
+    }
+    
+    if (route === '/plot') {
+      fetchImage();
+    }
+  }, [route]);
+  
+  window.addEventListener('popstate', () => {
+    setRoute(window.location.pathname);
+  });
 
   return (
     <div>
-      {(typeof data.members === 'undefined') ? (
-          <p>Loading...</p>
-      ): (
-        data.members.map((member, i) => (
-            <p key={i}>{member}</p>
-        ))
-      )}
+      {image && <img src={image} alt="Random Plot" />}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

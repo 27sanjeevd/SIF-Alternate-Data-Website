@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Flight from './components/flight.js';
+import Navbar from './components/navbar.js';
 
 function App() {
   const [image, setImage] = useState(null);

@@ -15,9 +15,8 @@ cnx = mysql.connector.connect(
     database="temp_database"
 )
 
-
-@app.route("/plot")
-def plot():
+@app.route("/flight")
+def flight():
 
     mycursor = cnx.cursor()
     mycursor.execute("SELECT country FROM flights")
@@ -44,7 +43,7 @@ def plot():
             y.append(dict1[outside][inside][0])
 
         plt.plot(x, y)
-    
+
     plt.title("random plot")
 
     plt.savefig('/Users/sanjeevdevarajan/Documents/GitHub/SIF-Alternate-Data-Website/sif-website/src/components/plot5.png')
@@ -52,6 +51,73 @@ def plot():
 
     return send_file("/Users/sanjeevdevarajan/Documents/GitHub/SIF-Alternate-Data-Website/sif-website/src/components/plot5.png", mimetype="image/png")
 
+
+
+    mycursor = cnx.cursor()
+    mycursor.execute("SELECT country FROM flights")
+    country1 = mycursor.fetchall()
+
+    mycursor.execute("SELECT amount FROM flights")
+    amount1 = mycursor.fetchall()
+
+    mycursor.execute("SELECT time FROM flights")
+    time1 = mycursor.fetchall()
+
+    dict1 = {}
+
+    for x in range(len(country1)):
+        if country1[x] not in dict1.keys():
+            dict1[country1[x]] = {}
+        dict1[country1[x]][time1[x]] = amount1[x]
+        
+    for outside in dict1.keys():
+        x = []
+        y = []
+        for inside in dict1[outside].keys():
+            x.append(inside[0])
+            y.append(dict1[outside][inside][0])
+
+        plt.plot(x, y)
+
+    plt.title("random plot")
+
+    plt.savefig('/Users/sanjeevdevarajan/Documents/GitHub/SIF-Alternate-Data-Website/sif-website/src/components/plot5.png')
+    plt.clf()
+
+    return send_file("/Users/sanjeevdevarajan/Documents/GitHub/SIF-Alternate-Data-Website/sif-website/src/components/plot5.png", mimetype="image/png")
+
+@app.route("/currency")
+def currency():
+
+    mycursor = cnx.cursor()
+
+    mycursor.execute("SELECT * FROM currency_data")
+    currency1 = mycursor.fetchall()
+
+    dict1 = {}
+
+    for row in currency1:
+        for y in range(len(row) - 3):
+            if y not in dict1:
+                dict1[y] = {}
+
+            dict1[y][row[7]] = row[y]
+
+    for outside in dict1.keys():
+        x = []
+        y = []
+        for inside in dict1[outside].keys():
+            x.append(inside)
+            y.append(dict1[outside][inside])
+
+        plt.plot(x, y)
+
+    plt.title("random plot")
+
+    plt.savefig('/Users/sanjeevdevarajan/Documents/GitHub/SIF-Alternate-Data-Website/sif-website/src/components/plot5.png')
+    plt.clf()
+
+    return send_file("/Users/sanjeevdevarajan/Documents/GitHub/SIF-Alternate-Data-Website/sif-website/src/components/plot5.png", mimetype="image/png")
 
 
 if __name__ == '__main__':

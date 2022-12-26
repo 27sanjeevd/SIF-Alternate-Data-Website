@@ -5,14 +5,17 @@ function App() {
   const [route, setRoute] = useState(window.location.pathname);
   
   useEffect(() => {
-    async function fetchImage() {
-      const response = await fetch('http://localhost:3000/plot');
+    async function fetchImage(route1) {
+      const response = await fetch(route1);
       const blob = await response.blob();
       setImage(URL.createObjectURL(blob));
     }
     
-    if (route === '/plot') {
-      fetchImage();
+    if (route === '/flight') {
+      fetchImage('/flight');
+    }
+    else if (route ==="/currency") {
+      fetchImage("/currency")
     }
   }, [route]);
   

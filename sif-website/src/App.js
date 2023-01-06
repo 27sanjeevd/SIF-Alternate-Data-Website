@@ -16,8 +16,6 @@ function App() {
     
     if (route === '/flight') {
 
-      
-
       fetchImage('/flight');
     }
     else if (route ==="/currency") {
@@ -36,35 +34,36 @@ function App() {
   const handleChange = (event) => {
     const {name, checked} = event.target;
     if (checked){
-      setOptions([...options, " " + name]);
+      setOptions([...options, name]);
     }
     else {
-      setOptions(options.filter((option) => option !== " " + name));
+      setOptions(options.filter((option) => option !== name));
     }
   }
 
-  const handleSubmit = () => {
-    console.log(options);
+  const handleSubmit = async () => {
+    const response = await fetch(`/flight1?options=${options.join(",")}`);
+    const blob = await response.blob();
+    setImage(URL.createObjectURL(blob));
   }
 
   return (
     <div>
       {image && <img src={image} alt="Random Plot" />}
-      <p>{options}</p>
       <form>
         <label>
-          <input type="checkbox" name="Option1" onChange={handleChange} />
-          Option 1
+          <input type="checkbox" name="Australia" onChange={handleChange} />
+          Australia
         </label>
       <br />
         <label>
-          <input type="checkbox" name="Option2" onChange={handleChange} />
-          Option 2
+          <input type="checkbox" name="Thailand" onChange={handleChange} />
+          Thailand
         </label>
       <br />
         <label>
-          <input type="checkbox" name="Option3" onChange={handleChange} />
-          Option 3
+          <input type="checkbox" name="Brazil" onChange={handleChange} />
+          Brazil
         </label>
       <br />
       <button type="button" onClick={handleSubmit}>Submit</button>

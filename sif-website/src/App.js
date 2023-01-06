@@ -15,6 +15,9 @@ function App() {
     }
     
     if (route === '/flight') {
+
+      
+
       fetchImage('/flight');
     }
     else if (route ==="/currency") {
@@ -26,9 +29,46 @@ function App() {
     setRoute(window.location.pathname);
   });
 
+
+
+  const [options, setOptions] = React.useState([]);
+
+  const handleChange = (event) => {
+    const {name, checked} = event.target;
+    if (checked){
+      setOptions([...options, " " + name]);
+    }
+    else {
+      setOptions(options.filter((option) => option !== " " + name));
+    }
+  }
+
+  const handleSubmit = () => {
+    console.log(options);
+  }
+
   return (
     <div>
       {image && <img src={image} alt="Random Plot" />}
+      <p>{options}</p>
+      <form>
+        <label>
+          <input type="checkbox" name="Option1" onChange={handleChange} />
+          Option 1
+        </label>
+      <br />
+        <label>
+          <input type="checkbox" name="Option2" onChange={handleChange} />
+          Option 2
+        </label>
+      <br />
+        <label>
+          <input type="checkbox" name="Option3" onChange={handleChange} />
+          Option 3
+        </label>
+      <br />
+      <button type="button" onClick={handleSubmit}>Submit</button>
+    </form>
     </div>
   );
 }

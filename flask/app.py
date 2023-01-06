@@ -2,9 +2,11 @@ from flask import Flask, send_file
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import numpy as np
 from pathlib import Path
 import mysql.connector
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -42,7 +44,12 @@ def flight():
             x.append(inside[0])
             y.append(dict1[outside][inside][0])
 
-        plt.plot(x, y)
+        df_x = pd.DataFrame(x, columns=['Time'])
+        df_x['Time'] = pd.to_datetime(df_x['Time'])
+
+        x1 = df_x['Time']
+
+        plt.plot(x1, y)
 
     plt.title("random plot")
 

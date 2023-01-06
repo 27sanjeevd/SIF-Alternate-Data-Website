@@ -3,6 +3,9 @@ import { Route, Routes } from 'react-router-dom';
 import Flight from './components/flight.js';
 import Navbar from './components/navbar.js';
 
+
+const options1 = [];
+
 function App() {
   const [image, setImage] = useState(null);
   const [route, setRoute] = useState(window.location.pathname);
@@ -28,21 +31,18 @@ function App() {
   });
 
 
-
-  const [options, setOptions] = React.useState([]);
-
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     const {name, checked} = event.target;
     if (checked){
-      setOptions([...options, name]);
+      options1.push(name)
     }
     else {
-      setOptions(options.filter((option) => option !== name));
+      let index = options1.indexOf(name);
+      if (index > -1) {
+        options1.splice(index, 1);
+      }
     }
-  }
-
-  const handleSubmit = async () => {
-    const response = await fetch(`/flight1?options=${options.join(",")}`);
+    const response = await fetch(`/flight?options=${options1.join(",")}`);
     const blob = await response.blob();
     setImage(URL.createObjectURL(blob));
   }
@@ -66,7 +66,6 @@ function App() {
           Brazil
         </label>
       <br />
-      <button type="button" onClick={handleSubmit}>Submit</button>
     </form>
     </div>
   );

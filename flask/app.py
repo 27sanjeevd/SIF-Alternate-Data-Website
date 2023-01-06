@@ -17,11 +17,16 @@ cnx = mysql.connector.connect(
     database="temp_database"
 )
 
-@app.route("/flight1")
-def flight1():
+@app.route("/flight")
+def flight():
+    temp = request.args.get('options')
+    options = []
+    val1 = False
+    if temp is not None:
+        options = temp.split(',')
+    else:
+        val1 = True
 
-    options = request.args.get('options').split(',')
-    
     mycursor = cnx.cursor()
     mycursor.execute("SELECT country FROM flights")
     country1 = mycursor.fetchall()
@@ -40,7 +45,7 @@ def flight1():
         dict1[country1[x]][time1[x]] = amount1[x]
         
     for outside in dict1.keys():
-        if outside[0] in options:
+        if not val1 and outside[0] in options:
             x = []
             y = []
             for inside in dict1[outside].keys():
@@ -54,49 +59,7 @@ def flight1():
 
             plt.plot(x1, y)
 
-    plt.title("random plot")
-
-    plt.savefig('/Users/sanjeevdevarajan/Documents/GitHub/SIF-Alternate-Data-Website/sif-website/src/components/plot5.png')
-    plt.clf()
-
-    return send_file("/Users/sanjeevdevarajan/Documents/GitHub/SIF-Alternate-Data-Website/sif-website/src/components/plot5.png", mimetype="image/png")
-    
-
-@app.route("/flight")
-def flight():
-
-    mycursor = cnx.cursor()
-    mycursor.execute("SELECT country FROM flights")
-    country1 = mycursor.fetchall()
-
-    mycursor.execute("SELECT amount FROM flights")
-    amount1 = mycursor.fetchall()
-
-    mycursor.execute("SELECT time FROM flights")
-    time1 = mycursor.fetchall()
-
-    dict1 = {}
-
-    for x in range(len(country1)):
-        if country1[x] not in dict1.keys():
-            dict1[country1[x]] = {}
-        dict1[country1[x]][time1[x]] = amount1[x]
-        
-    for outside in dict1.keys():
-        x = []
-        y = []
-        for inside in dict1[outside].keys():
-            x.append(inside[0])
-            y.append(dict1[outside][inside][0])
-
-        df_x = pd.DataFrame(x, columns=['Time'])
-        df_x['Time'] = pd.to_datetime(df_x['Time'])
-
-        x1 = df_x['Time']
-
-        plt.plot(x1, y)
-
-    plt.title("random plot")
+    plt.title("flights")
 
     plt.savefig('/Users/sanjeevdevarajan/Documents/GitHub/SIF-Alternate-Data-Website/sif-website/src/components/plot5.png')
     plt.clf()

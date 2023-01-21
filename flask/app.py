@@ -60,6 +60,7 @@ def flight():
             plt.plot(x1, y)
 
     plt.title("flights")
+    plt.xticks(rotation=20)
 
     plt.savefig('/Users/sanjeevdevarajan/Documents/GitHub/SIF-Alternate-Data-Website/sif-website/src/components/plot5.png')
     plt.clf()

@@ -66,6 +66,51 @@ function App() {
           Brazil
         </label>
       <br />
+        <label>
+          <input type="checkbox" name="Japan" onChange={handleChange} />
+          Japan
+        </label>
+      <br />
+        <label>
+          <input type="checkbox" name="" onChange={handleChange} />
+          Taiwan
+        </label>
+      <br />
+        <label>
+          <input type="checkbox" name="Ethiopia" onChange={handleChange} />
+          Ethiopia
+        </label>
+      <br />
+        <label>
+          <input type="checkbox" name="Switzerland" onChange={handleChange} />
+          Switzerland
+        </label>
+      <br />
+        <label>
+          <input type="checkbox" name="Mexico" onChange={handleChange} />
+          Mexico
+        </label>
+      <br />
+        <label>
+          <input type="checkbox" name="Turkey" onChange={handleChange} />
+          Turkey
+        </label>
+      <br />
+        <label>
+          <input type="checkbox" name="Canada" onChange={handleChange} />
+          Canada
+        </label>
+      <br />
+        <label>
+          <input type="checkbox" name="Indonesia" onChange={handleChange} />
+          Indonesia
+        </label>
+      <br />
+        <label>
+          <input type="checkbox" name="China" onChange={handleChange} />
+          China
+        </label>
+      <br />
     </form>
     </div>
   );

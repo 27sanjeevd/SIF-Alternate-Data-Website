@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Input Box</title>
+    <style>
+      .input-box {
+        width: 300px;
+        height: 50px;
+        border: 1px solid black;
+        padding: 10px;
+        font-size: 20px;
+        margin-bottom: 10px;
+        position: relative;
+      }
+      
+      .input-box .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <input type="text" id="input-field" placeholder="Type your text here and press enter" >
+    </div>
+
+    <script>
+        var inputField = document.getElementById("input-field");
+        var container = document.getElementById("container");
+
+        inputField.addEventListener("keyup", function(event) {
+        // Check if the "Enter" key was pressed
+        if (event.keyCode === 13) {
+          // Create a new div element to hold the input
+          var inputBox = document.createElement("div");
+          inputBox.classList.add("input-box");
+          
+          // Create a close button for the input box
+          var closeBtn = document.createElement("span");
+          closeBtn.classList.add("close-btn");
+          closeBtn.innerHTML = "x";
+          
+          // Append the input value to the input box
+          inputBox.innerHTML = this.value;
+          inputBox.appendChild(closeBtn);
+          
+          // Append the input box to the container
+          container.appendChild(inputBox);
+          
+          // Clear the input field
+          this.value = "";
+          
+          // Add an event listener to the close button to remove the input box
+          closeBtn.addEventListener("click", function() {
+            inputBox.remove();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

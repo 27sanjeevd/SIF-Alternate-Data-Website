@@ -17,10 +17,16 @@ const TextBox = () => {
   
   const handleKeyUp = (event) => {
     if (event.keyCode === 13) {
-      setInputs([...inputs, event.target.value]);
+      const foundWord = words.find((word) => word.startsWith(event.target.value));
+      if (words.includes(event.target.value)) {
+        setInputs([...inputs, event.target.value]);
+      } else if (foundWord) {
+        setInputs([...inputs, foundWord]);
+      }
       event.target.value = "";
     }
-  }
+  };
+  
   
   const handleCloseClick = (index) => {
     setInputs(inputs.filter((input, i) => i !== index));

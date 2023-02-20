@@ -7,6 +7,7 @@ import numpy as np
 from pathlib import Path
 import mysql.connector
 import pandas as pd
+import hashlib
 
 app = Flask(__name__)
 
@@ -57,7 +58,14 @@ def flight():
 
             x1 = df_x['Time']
 
-            plt.plot(x1, y)
+
+            hash_object = hashlib.sha256(outside[0].encode())
+            hex_dig = hash_object.hexdigest()
+            # Convert the hash to an RGB color
+            r, g, b = int(hex_dig[:2], 16), int(hex_dig[2:4], 16), int(hex_dig[4:6], 16)
+            color_map = '#{:02x}{:02x}{:02x}'.format(r, g, b)
+
+            plt.plot(x1, y, color=color_map)
 
     plt.title("flights")
     plt.xticks(rotation=20)

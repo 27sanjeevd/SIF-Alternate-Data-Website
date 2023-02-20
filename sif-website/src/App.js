@@ -40,6 +40,9 @@ function App() {
       setFilteredWords(
         words.filter((word) => word.toLowerCase().startsWith(event.target.value.toLowerCase()))
       );
+    }
+    else {
+      setFilteredWords([]);
     };
   };
 
@@ -49,7 +52,7 @@ function App() {
     if (event.keyCode === 13 && event.target.value.length > 0) {
       const foundWord = words.find((word) => word.toLowerCase().startsWith(event.target.value.toLowerCase()));
       
-      if (foundWord !== undefined) {
+      if (foundWord !== undefined && !options1.includes(foundWord)) {
         setInputs(inputs => [...inputs, foundWord]);
         options1.push(foundWord);
       }
@@ -74,6 +77,7 @@ function App() {
     setInputs(inputs.filter((input, i) => i !== index));
   }
 
+  
   return (
     <div>
       {image && <img src={image} alt="Random Plot" />}

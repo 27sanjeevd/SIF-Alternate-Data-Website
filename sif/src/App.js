@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import "./components/TextBox.css";
+import React, { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+
+const options1 = [];
 
 const TextBox = () => {
   const [inputValue, setInputValue] = useState("");
@@ -9,26 +11,29 @@ const TextBox = () => {
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
     setFilteredWords(
-      words.filter((word) => word.startsWith(inputValue))
+      words.filter((word) => word.startsWith(event.target.value))
     );
   };
 
   const [inputs, setInputs] = useState([]);
   
   const handleKeyUp = (event) => {
-    if (event.keyCode === 13) {
+    if (event.keyCode === 13 && event.target.value.length > 0) {
       const foundWord = words.find((word) => word.startsWith(event.target.value));
-      if (words.includes(event.target.value)) {
-        setInputs([...inputs, event.target.value]);
-      } else if (foundWord) {
-        setInputs([...inputs, foundWord]);
+      
+      if (foundWord !== undefined) {
+        setInputs(inputs => [...inputs, foundWord]);
+        options1.push(foundWord);
       }
       event.target.value = "";
-    }
+      setInputValue(event.target.value);
+    };
   };
   
   
   const handleCloseClick = (index) => {
+    options1.splice(index, 1);
+    console.log(options1);
     setInputs(inputs.filter((input, i) => i !== index));
   }
 
@@ -41,10 +46,10 @@ const TextBox = () => {
         onKeyUp={handleKeyUp} 
       />
 
-      {inputs.map((input, index) => (
-        <div key={index} style={{width: "300px", height: "50px", border: "1px solid black", padding: "10px", fontSize: "20px", marginBottom: "10px", position: "relative"}}>
+      {options1.map((input, index) => (
+        <div key={index} style={{width: "300px", height: "20px", border: "1px solid black", padding: "10px", fontSize: "20px", marginBottom: "10px", position: "relative"}}>
           {input}
-          <span style={{position: "absolute", top: "5px", right: "5px", cursor: "pointer", fontSize: "20px"}} onClick={() => handleCloseClick(index)}>x</span>
+          <span style={{position: "absolute", top: "1px", right: "5px", cursor: "pointer", fontSize: "20px"}} onClick={() => handleCloseClick(index)}>x</span>
         </div>
       ))}
 
